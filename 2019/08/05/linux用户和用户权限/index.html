@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="linux用户和组的管理一.概念及目的   + Authentication:认证    + Authorization:授权    +  Accounting:审计  Linux 用户：username/uid   管理员：root,0   普通用户：1-65535     系统用户：1-999     对守护程序获取资源进行权限分配     登录用户：（uid）1000+（centos7）">
+<meta name="description" content="linux用户和组的管理一.概念及目的 Authentication:认证 Authorization:授权 Accounting:审计  Linux 用户：username/uid  管理员：root,0  普通用户：1-65535    系统用户：1-999    对守护程序获取资源进行权限分配    登录用户：（uid）1000+（centos7）    交互式登录Linux组    管理员">
 <meta property="og:type" content="article">
 <meta property="og:title" content="阑珊处">
 <meta property="og:url" content="http://yoursite.com/2019/08/05/linux用户和用户权限/index.html">
 <meta property="og:site_name" content="阑珊处">
-<meta property="og:description" content="linux用户和组的管理一.概念及目的   + Authentication:认证    + Authorization:授权    +  Accounting:审计  Linux 用户：username/uid   管理员：root,0   普通用户：1-65535     系统用户：1-999     对守护程序获取资源进行权限分配     登录用户：（uid）1000+（centos7）">
+<meta property="og:description" content="linux用户和组的管理一.概念及目的 Authentication:认证 Authorization:授权 Accounting:审计  Linux 用户：username/uid  管理员：root,0  普通用户：1-65535    系统用户：1-999    对守护程序获取资源进行权限分配    登录用户：（uid）1000+（centos7）    交互式登录Linux组    管理员">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-08T07:50:35.667Z">
+<meta property="og:updated_time" content="2019-08-09T07:20:25.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阑珊处">
-<meta name="twitter:description" content="linux用户和组的管理一.概念及目的   + Authentication:认证    + Authorization:授权    +  Accounting:审计  Linux 用户：username/uid   管理员：root,0   普通用户：1-65535     系统用户：1-999     对守护程序获取资源进行权限分配     登录用户：（uid）1000+（centos7）">
+<meta name="twitter:description" content="linux用户和组的管理一.概念及目的 Authentication:认证 Authorization:授权 Accounting:审计  Linux 用户：username/uid  管理员：root,0  普通用户：1-65535    系统用户：1-999    对守护程序获取资源进行权限分配    登录用户：（uid）1000+（centos7）    交互式登录Linux组    管理员">
 
 
 
@@ -334,35 +334,15 @@
       
 
       
-        <h1 id="linux用户和组的管理"><a href="#linux用户和组的管理" class="headerlink" title="linux用户和组的管理"></a>linux用户和组的管理</h1><h2 id="一-概念及目的"><a href="#一-概念及目的" class="headerlink" title="一.概念及目的"></a>一.概念及目的</h2><pre><code>   + Authentication:认证
-   + Authorization:授权
-   +  Accounting:审计
-
-Linux 用户：username/uid
-  管理员：root,0
-  普通用户：1-65535
-    系统用户：1-999
-    对守护程序获取资源进行权限分配
-    登录用户：（uid）1000+（centos7）
-    交互式登录
-Linux组
-    管理员组：root,0
-    普通组，1000+
-Linux安全上下文：
-    运行中的程序
-      以进程发起者的身份运行：
-      root:cat
-    进程所能够访问所有资源的权限取决于进程的发起者的身份
-
-Linux 组的类别：
- 用户的基本组（主组）
-    组名同用户名：且仅包含一个用户，私有组
- 用户的额外组
-
-Linux用户和组相关的配置文件：
-  /etc/password:用户及属性的信息
-  /etc/group：组极其属性信息
-  /etc/shadow:用户密码以及相关属性</code></pre><p>二.有关配置文件的详解<br>1./etc/passwd<br>user2:x:1001:1001::/home/user2:/bin/bash<br>(1).用户名<br>(2).密码（这里由于为了安全性的问题，都用x代替，真正的密码都在/etc/shadow）<br>(3)用户标识号，即uid，<br>(4)组标号<br>(5)用户详细信息，备注信息<br>(6)用户主目录，如果没有在创建指定，即为/home/username<br>2./etc/shadow<br>以user2:!!:18115:0:99999:7:::为例<br>(1).用户名<br>(2).加密后的密码，如果这一栏!或者*的话，说明这是一个不能登录的账户。<br>(3).最近改动密码的日期（从1970年1月1日算起，把这个当作unix的元年<br>(4).最小密码使用日期：即从上次更改密码算起，最少隔多少天才能修改修改密码<br>(5).最大密码使用日期：从上次更改密码，隔多少天必须修改密码若99999为没有限制<br>(6).密码过期预警时间：最大密码使用日期到期之前的天数，超过这个天数还没有修改，系统会提示修改密码<br>(7).宽限期：超过最大密码使用日期之后，如果仍然没有修改，则还会有几天的宽限日期<br>(8)账号失效日期：超过这个日期还没有修改密码，系统会将这个用户锁掉，此时只能找管理员。<br>(9)保留项</p>
+        <h1 id="linux用户和组的管理"><a href="#linux用户和组的管理" class="headerlink" title="linux用户和组的管理"></a>linux用户和组的管理</h1><h2 id="一-概念及目的"><a href="#一-概念及目的" class="headerlink" title="一.概念及目的"></a>一.概念及目的</h2><ul>
+<li>Authentication:认证</li>
+<li>Authorization:授权</li>
+<li>Accounting:审计</li>
+</ul>
+<p>Linux 用户：username/uid<br>  管理员：root,0<br>  普通用户：1-65535<br>    系统用户：1-999<br>    对守护程序获取资源进行权限分配<br>    登录用户：（uid）1000+（centos7）<br>    交互式登录<br>Linux组<br>    管理员组：root,0<br>    普通组，1000+<br>Linux安全上下文：<br>    运行中的程序<br>      以进程发起者的身份运行：<br>      root:cat<br>    进程所能够访问所有资源的权限取决于进程的发起者的身份</p>
+<p>Linux 组的类别：<br> 用户的基本组（主组）<br>    组名同用户名：且仅包含一个用户，私有组<br> 用户的额外组</p>
+<p>Linux用户和组相关的配置文件：<br>  /etc/password:用户及属性的信息<br>  /etc/group：组极其属性信息<br>  /etc/shadow:用户密码以及相关属性</p>
+<h2 id="二-有关配置文件的详解"><a href="#二-有关配置文件的详解" class="headerlink" title="二.有关配置文件的详解"></a>二.有关配置文件的详解</h2><p>1./etc/passwd<br>user2:x:1001:1001::/home/user2:/bin/bash<br>(1).用户名<br>(2).密码（这里由于为了安全性的问题，都用x代替，真正的密码都在/etc/shadow）<br>(3)用户标识号，即uid，<br>(4)组标号<br>(5)用户详细信息，备注信息<br>(6)用户主目录，如果没有在创建指定，即为/home/username<br>2./etc/shadow<br>以user2:!!:18115:0:99999:7:::为例<br>(1).用户名<br>(2).加密后的密码，如果这一栏!或者*的话，说明这是一个不能登录的账户。<br>(3).最近改动密码的日期（从1970年1月1日算起，把这个当作unix的元年<br>(4).最小密码使用日期：即从上次更改密码算起，最少隔多少天才能修改修改密码<br>(5).最大密码使用日期：从上次更改密码，隔多少天必须修改密码若99999为没有限制<br>(6).密码过期预警时间：最大密码使用日期到期之前的天数，超过这个天数还没有修改，系统会提示修改密码<br>(7).宽限期：超过最大密码使用日期之后，如果仍然没有修改，则还会有几天的宽限日期<br>(8)账号失效日期：超过这个日期还没有修改密码，系统会将这个用户锁掉，此时只能找管理员。<br>(9)保留项</p>
 <p>用户信息的增删改查<br> （1）useradd命令<br>    常用选项：<br>    -c 加上备注文字，保存在passwd的备注栏中<br>    -d  指定用户的家目录<br>    -g：指定用户所属的群组<br>    -G:指定用户所属的附加群组<br>    -r:建立系统账号<br>    -s:指定用户登入后所使用的shell<br>    -u:指定用户的ID</p>
 <p>（2）查看用户的id信息<br>     id  [options].. [user]<br>        -u:uid<br>        -g:gid<br>        -g:groups<br>        -na：Name</p>
 <p>切换用户或者以其他用户的身份执行命令<br>  切换用户的方式：<br>     su UserName:非登陆式切换<br>     su  - uesrname</p>
@@ -547,7 +527,7 @@ Linux用户和组相关的配置文件：
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux用户和组的管理"><span class="nav-number">1.</span> <span class="nav-text">linux用户和组的管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-概念及目的"><span class="nav-number">1.1.</span> <span class="nav-text">一.概念及目的</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux用户和组的管理"><span class="nav-number">1.</span> <span class="nav-text">linux用户和组的管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-概念及目的"><span class="nav-number">1.1.</span> <span class="nav-text">一.概念及目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-有关配置文件的详解"><span class="nav-number">1.2.</span> <span class="nav-text">二.有关配置文件的详解</span></a></li></ol></li></ol></div>
             
 
           </div>
