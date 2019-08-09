@@ -259,154 +259,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/linux用户和用户权限/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="渐渐淡忘‘">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/2.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="阑珊处">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/05/linux用户和用户权限/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-05T14:51:05+08:00">
-                2019-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="linux用户和组的管理"><a href="#linux用户和组的管理" class="headerlink" title="linux用户和组的管理"></a>linux用户和组的管理</h1><h2 id="一-概念及目的"><a href="#一-概念及目的" class="headerlink" title="一.概念及目的"></a>一.概念及目的</h2><ul>
-<li>Authentication:认证</li>
-<li>Authorization:授权</li>
-<li>Accounting:审计</li>
-</ul>
-<p>Linux 用户：username/uid<br>  管理员：root,0<br>  普通用户：1-65535<br>    系统用户：1-999<br>    对守护程序获取资源进行权限分配<br>    登录用户：（uid）1000+（centos7）<br>    交互式登录<br>Linux组<br>    管理员组：root,0<br>    普通组，1000+<br>Linux安全上下文：<br>    运行中的程序<br>      以进程发起者的身份运行：<br>      root:cat<br>    进程所能够访问所有资源的权限取决于进程的发起者的身份</p>
-<p>Linux 组的类别：<br> 用户的基本组（主组）<br>    组名同用户名：且仅包含一个用户，私有组<br> 用户的额外组</p>
-<p>Linux用户和组相关的配置文件：<br>  /etc/password:用户及属性的信息<br>  /etc/group：组极其属性信息<br>  /etc/shadow:用户密码以及相关属性</p>
-<h2 id="二-有关配置文件的详解"><a href="#二-有关配置文件的详解" class="headerlink" title="二.有关配置文件的详解"></a>二.有关配置文件的详解</h2><p>1./etc/passwd<br>user2:x:1001:1001::/home/user2:/bin/bash<br>(1).用户名<br>(2).密码（这里由于为了安全性的问题，都用x代替，真正的密码都在/etc/shadow）<br>(3)用户标识号，即uid，<br>(4)组标号<br>(5)用户详细信息，备注信息<br>(6)用户主目录，如果没有在创建指定，即为/home/username<br>2./etc/shadow<br>以user2:!!:18115:0:99999:7:::为例<br>(1).用户名<br>(2).加密后的密码，如果这一栏!或者*的话，说明这是一个不能登录的账户。<br>(3).最近改动密码的日期（从1970年1月1日算起，把这个当作unix的元年<br>(4).最小密码使用日期：即从上次更改密码算起，最少隔多少天才能修改修改密码<br>(5).最大密码使用日期：从上次更改密码，隔多少天必须修改密码若99999为没有限制<br>(6).密码过期预警时间：最大密码使用日期到期之前的天数，超过这个天数还没有修改，系统会提示修改密码<br>(7).宽限期：超过最大密码使用日期之后，如果仍然没有修改，则还会有几天的宽限日期<br>(8)账号失效日期：超过这个日期还没有修改密码，系统会将这个用户锁掉，此时只能找管理员。<br>(9)保留项</p>
-<p>用户信息的增删改查<br> （1）useradd命令<br>    常用选项：<br>    -c 加上备注文字，保存在passwd的备注栏中<br>    -d  指定用户的家目录<br>    -g：指定用户所属的群组<br>    -G:指定用户所属的附加群组<br>    -r:建立系统账号<br>    -s:指定用户登入后所使用的shell<br>    -u:指定用户的ID</p>
-<p>（2）查看用户的id信息<br>     id  [options].. [user]<br>        -u:uid<br>        -g:gid<br>        -g:groups<br>        -na：Name</p>
-<p>切换用户或者以其他用户的身份执行命令<br>  切换用户的方式：<br>     su UserName:非登陆式切换<br>     su  - uesrname</p>
-<p>用户属性的修改:<br> usermod -d  修改家目录 :<br> tips:单原有的家目录文件不会复制到新家目录，若要移动使用-m</p>
-<p>（2）.用户的增加</p>
-<p>给用户添加密码（只有管理员又权限）<br>passwd 【options】 usrname:修改指定用户的密码，仅root用户权限<br>passwd :修改自己的密码</p>
-<p>常用选项<br>  -l:锁定指定用户<br>  -u:解锁指定用户<br>  -n minday:指定密码最小使用期限<br>  -x  maxdey:指定密码最大使用期限<br>  -w:提前多少天开始警告<br>  -i:</p>
-<p>–stdin:从标准输入接受用户名<br> echo  “password”|passwd –stdin username </p>
-<p>删除用户<br>userdel [option].. login<br> -r :删除用户的家目录</p>
-<p>组属性修改<br>  groupmod<br>常用属性:</p>
-<ul>
-<li>-n:新名字</li>
-<li>-g:新的gid</li>
-</ul>
-<p>组删除：groupdel<br>  groupdel group</p>
-<p>newgrp:临时切换基本组</p>
-<p>修改用户密码属性<br> change<br> -d last day<br> -E 密码到期的时间<br> -m 密码最小的使用时间<br> -M 密码最大的有效时间<br> -W<br> -I 宽限期</p>
-<p>权限管理</p>
-<p>对于文件来说<br> r:可以使用cat等文件查看工具获取其内容<br> w:可以修改其内容<br> x:可以把此文件提请内核启动为一个进程</p>
-<p>目录：<br> r::可以用ls查看此目录中文件列表<br> w:可在此目录中修改或删除文件<br> x:可以使用ls -l查看此目录中文件，可以cd进入目录里</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/hexo博客的搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -513,6 +365,154 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/liuguoxiang2/liuguoxiang2.github.io（这个填你刚才创建仓库的地址，这里我填的是我的）</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 
 <p>然后ctrl+s保存,然后我们回到git工具，输入hexo d（其实就是部署的意思）。等到命令结束后，打开浏览器。<strong>输入 https:你的github用户名.github.io</strong>，就大功告成了。以后我们就可以通过这个网址访问你的博客了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/linux用户和用户权限/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="渐渐淡忘‘">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/2.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阑珊处">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/30/linux用户和用户权限/" itemprop="url">linux用户组和用户权限</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T22:39:00+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="linux用户和组的管理"><a href="#linux用户和组的管理" class="headerlink" title="linux用户和组的管理"></a>linux用户和组的管理</h1><h2 id="一-概念及目的"><a href="#一-概念及目的" class="headerlink" title="一.概念及目的"></a>一.概念及目的</h2><ul>
+<li>Authentication:认证</li>
+<li>Authorization:授权</li>
+<li>Accounting:审计</li>
+</ul>
+<p>Linux 用户：username/uid<br>  管理员：root,0<br>  普通用户：1-65535<br>    系统用户：1-999<br>    对守护程序获取资源进行权限分配<br>    登录用户：（uid）1000+（centos7）<br>    交互式登录<br>Linux组<br>    管理员组：root,0<br>    普通组，1000+<br>Linux安全上下文：<br>    运行中的程序<br>      以进程发起者的身份运行：<br>      root:cat<br>    进程所能够访问所有资源的权限取决于进程的发起者的身份</p>
+<p>Linux 组的类别：<br> 用户的基本组（主组）<br>    组名同用户名：且仅包含一个用户，私有组<br> 用户的额外组</p>
+<p>Linux用户和组相关的配置文件：<br>  /etc/password:用户及属性的信息<br>  /etc/group：组极其属性信息<br>  /etc/shadow:用户密码以及相关属性</p>
+<h2 id="二-有关配置文件的详解"><a href="#二-有关配置文件的详解" class="headerlink" title="二.有关配置文件的详解"></a>二.有关配置文件的详解</h2><p>1./etc/passwd<br>user2:x:1001:1001::/home/user2:/bin/bash<br>(1).用户名<br>(2).密码（这里由于为了安全性的问题，都用x代替，真正的密码都在/etc/shadow）<br>(3)用户标识号，即uid，<br>(4)组标号<br>(5)用户详细信息，备注信息<br>(6)用户主目录，如果没有在创建指定，即为/home/username<br>2./etc/shadow<br>以user2:!!:18115:0:99999:7:::为例<br>(1).用户名<br>(2).加密后的密码，如果这一栏!或者*的话，说明这是一个不能登录的账户。<br>(3).最近改动密码的日期（从1970年1月1日算起，把这个当作unix的元年<br>(4).最小密码使用日期：即从上次更改密码算起，最少隔多少天才能修改修改密码<br>(5).最大密码使用日期：从上次更改密码，隔多少天必须修改密码若99999为没有限制<br>(6).密码过期预警时间：最大密码使用日期到期之前的天数，超过这个天数还没有修改，系统会提示修改密码<br>(7).宽限期：超过最大密码使用日期之后，如果仍然没有修改，则还会有几天的宽限日期<br>(8)账号失效日期：超过这个日期还没有修改密码，系统会将这个用户锁掉，此时只能找管理员。<br>(9)保留项</p>
+<p>用户信息的增删改查<br> （1）useradd命令<br>    常用选项：<br>    -c 加上备注文字，保存在passwd的备注栏中<br>    -d  指定用户的家目录<br>    -g：指定用户所属的群组<br>    -G:指定用户所属的附加群组<br>    -r:建立系统账号<br>    -s:指定用户登入后所使用的shell<br>    -u:指定用户的ID</p>
+<p>（2）查看用户的id信息<br>     id  [options].. [user]<br>        -u:uid<br>        -g:gid<br>        -g:groups<br>        -na：Name</p>
+<p>切换用户或者以其他用户的身份执行命令<br>  切换用户的方式：<br>     su UserName:非登陆式切换<br>     su  - uesrname</p>
+<p>用户属性的修改:<br> usermod -d  修改家目录 :<br> tips:单原有的家目录文件不会复制到新家目录，若要移动使用-m</p>
+<p>（2）.用户的增加</p>
+<p>给用户添加密码（只有管理员又权限）<br>passwd 【options】 usrname:修改指定用户的密码，仅root用户权限<br>passwd :修改自己的密码</p>
+<p>常用选项<br>  -l:锁定指定用户<br>  -u:解锁指定用户<br>  -n minday:指定密码最小使用期限<br>  -x  maxdey:指定密码最大使用期限<br>  -w:提前多少天开始警告<br>  -i:</p>
+<p>–stdin:从标准输入接受用户名<br> echo  “password”|passwd –stdin username </p>
+<p>删除用户<br>userdel [option].. login<br> -r :删除用户的家目录</p>
+<p>组属性修改<br>  groupmod<br>常用属性:</p>
+<ul>
+<li>-n:新名字</li>
+<li>-g:新的gid</li>
+</ul>
+<p>组删除：groupdel<br>  groupdel group</p>
+<p>newgrp:临时切换基本组</p>
+<p>修改用户密码属性<br> change<br> -d last day<br> -E 密码到期的时间<br> -m 密码最小的使用时间<br> -M 密码最大的有效时间<br> -W<br> -I 宽限期</p>
+<p>权限管理</p>
+<p>对于文件来说<br> r:可以使用cat等文件查看工具获取其内容<br> w:可以修改其内容<br> x:可以把此文件提请内核启动为一个进程</p>
+<p>目录：<br> r::可以用ls查看此目录中文件列表<br> w:可在此目录中修改或删除文件<br> x:可以使用ls -l查看此目录中文件，可以cd进入目录里</p>
 
           
         
